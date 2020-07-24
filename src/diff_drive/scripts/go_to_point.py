@@ -1,4 +1,4 @@
-#! /usr/bin/env python
+#! /usr/bin/env python2
 
 # import ros stuff
 import rospy
@@ -7,7 +7,7 @@ from geometry_msgs.msg import Twist, Point
 from nav_msgs.msg import Odometry
 from tf import transformations
 from std_srvs.srv import *
-
+import future
 import math
 
 active_ = False
@@ -36,6 +36,7 @@ def go_to_point_switch(req):
     res = SetBoolResponse()
     res.success = True
     res.message = 'Done!'
+    print(active_)
     return res
 
 # callbacks
@@ -55,6 +56,9 @@ def clbk_odom(msg):
     euler = transformations.euler_from_quaternion(quaternion)
     yaw_ = euler[2]
 
+
+
+
 def change_state(state):
     global state_
     state_ = state
@@ -63,7 +67,10 @@ def change_state(state):
 def normalize_angle(angle):
     if(math.fabs(angle) > math.pi):
         angle = angle - (2 * math.pi * angle) / (math.fabs(angle))
+
     return angle
+
+
 
 def fix_yaw(des_pos):
     global yaw_, pub, yaw_precision_, state_
@@ -111,6 +118,7 @@ def done():
 
 def main():
     global pub, active_
+    
 
     rospy.init_node('go_to_point')
 
@@ -123,6 +131,7 @@ def main():
     rate = rospy.Rate(20)
     while not rospy.is_shutdown():
         if not active_:
+
             continue
         else:
             if state_ == 0:
