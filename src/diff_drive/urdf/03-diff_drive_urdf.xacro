@@ -201,30 +201,27 @@
 </link>
 
  <gazebo reference="hokuyo_link1">
-    <sensor type="ray" name="head_hokuyo_sensor">
+    <sensor type="ray" name="head_hokuyo_sensor1">
       <pose>0 0 0 0 0 0</pose>
       <visualize>true</visualize>
-      <update_rate>40</update_rate>
+      <update_rate>20</update_rate>
       <ray>
         <scan>
           <horizontal>
-            <samples>720</samples>
+            <samples>360</samples>
             <resolution>1</resolution>
-            <min_angle>-1.570796</min_angle>
-            <max_angle>1.570796</max_angle>
+            <min_angle>-0.785398</min_angle>
+            <max_angle>0.785398</max_angle>
           </horizontal>
         </scan>
         <range>
           <min>0.10</min>
-          <max>30.0</max>
+          <max>1.5</max>
           <resolution>0.01</resolution>
         </range>
         <noise>
           <type>gaussian</type>
-          <!-- Noise parameters based on published spec for Hokuyo laser
-               achieving "+-30mm" accuracy at range < 10m.  A mean of 0.0m and
-               stddev of 0.01m will put 99.7% of samples within 0.03m of the true
-               reading. -->
+
           <mean>0.0</mean>
           <stddev>0.01</stddev>
         </noise>
@@ -237,10 +234,11 @@
   </gazebo>
 
 
-<!--///////////////////////////////hokuyo2//////////////////////////////////
+<!--///////////////////////////////hokuyo2//////////////////////////////////-->
+
 <joint name="hokuyo_joint2" type="fixed">
   <axis xyz="-1 0 0" />
-  <origin xyz="-0.07 0 0.08" rpy="0 0 0"/>
+  <origin xyz="0 0.07 0.08" rpy="0 0 0"/>
   <parent link="chassis"/>
   <child link="hokuyo_link2"/>
 </joint>
@@ -268,27 +266,27 @@
 </link>
 
  <gazebo reference="hokuyo_link2">
-    <sensor type="ray" name="head_hokuyo_sensor">
+    <sensor type="ray" name="head_hokuyo_sensor2">
       <pose>0 0 0 0 0 0</pose>
       <visualize>true</visualize>
-      <update_rate>40</update_rate>
+      <update_rate>20</update_rate>
       <ray>
         <scan>
           <horizontal>
-            <samples>720</samples>
+            <samples>360</samples>
             <resolution>1</resolution>
-            <min_angle>1.570796</min_angle>
-            <max_angle>4.712389</max_angle>
+            <min_angle>0.785398</min_angle>
+            <max_angle>2.356194</max_angle>
           </horizontal>
         </scan>
         <range>
           <min>0.10</min>
-          <max>30.0</max>
+          <max>1.5</max>
           <resolution>0.01</resolution>
         </range>
         <noise>
           <type>gaussian</type>
-          
+
           <mean>0.0</mean>
           <stddev>0.01</stddev>
         </noise>
@@ -299,7 +297,137 @@
       </plugin>
     </sensor>
   </gazebo>
--->
+
+
+  <!--///////////////////////////////hokuyo3//////////////////////////////////-->
+
+  <joint name="hokuyo_joint3" type="fixed">
+    <axis xyz="-1 0 0" />
+    <origin xyz="-0.07 0 0.08" rpy="0 0 0"/>
+    <parent link="chassis"/>
+    <child link="hokuyo_link3"/>
+  </joint>
+
+  <link name="hokuyo_link3">
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+    <box size="0.1 0.1 0.1"/>
+      </geometry>
+    </collision>
+
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://diff_drive/meshes/hokuyo.dae"/>
+      </geometry>
+    </visual>
+
+    <inertial>
+      <mass value="1e-5" />
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <inertia ixx="1e-6" ixy="0" ixz="0" iyy="1e-6" iyz="0" izz="1e-6" />
+    </inertial>
+  </link>
+
+   <gazebo reference="hokuyo_link3">
+      <sensor type="ray" name="head_hokuyo_sensor3">
+        <pose>0 0 0 0 0 0</pose>
+        <visualize>true</visualize>
+        <update_rate>20</update_rate>
+        <ray>
+          <scan>
+            <horizontal>
+              <samples>360</samples>
+              <resolution>1</resolution>
+              <min_angle>2.356194</min_angle>
+              <max_angle>3.926991</max_angle>
+            </horizontal>
+          </scan>
+          <range>
+            <min>0.10</min>
+            <max>1.5</max>
+            <resolution>0.01</resolution>
+          </range>
+          <noise>
+            <type>gaussian</type>
+
+            <mean>0.0</mean>
+            <stddev>0.01</stddev>
+          </noise>
+        </ray>
+        <plugin name="gazebo_ros_head_hokuyo_controller" filename="libgazebo_ros_laser.so">
+          <topicName>/Diff_Drive/laser/scan3</topicName>
+          <frameName>hokuyo_link3</frameName>
+        </plugin>
+      </sensor>
+    </gazebo>
+
+
+    <!--///////////////////////////////hokuyo4//////////////////////////////////-->
+
+    <joint name="hokuyo_joint4" type="fixed">
+      <axis xyz="-1 0 0" />
+      <origin xyz="0 -0.07 0.08" rpy="0 0 0"/>
+      <parent link="chassis"/>
+      <child link="hokuyo_link4"/>
+    </joint>
+
+    <link name="hokuyo_link4">
+      <collision>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+      <box size="0.1 0.1 0.1"/>
+        </geometry>
+      </collision>
+
+      <visual>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <mesh filename="package://diff_drive/meshes/hokuyo.dae"/>
+        </geometry>
+      </visual>
+
+      <inertial>
+        <mass value="1e-5" />
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <inertia ixx="1e-6" ixy="0" ixz="0" iyy="1e-6" iyz="0" izz="1e-6" />
+      </inertial>
+    </link>
+
+     <gazebo reference="hokuyo_link4">
+        <sensor type="ray" name="head_hokuyo_sensor4">
+          <pose>0 0 0 0 0 0</pose>
+          <visualize>true</visualize>
+          <update_rate>20</update_rate>
+          <ray>
+            <scan>
+              <horizontal>
+                <samples>360</samples>
+                <resolution>1</resolution>
+                <min_angle>3.926991</min_angle>
+                <max_angle>5.497787</max_angle>
+              </horizontal>
+            </scan>
+            <range>
+              <min>0.10</min>
+              <max>1.5</max>
+              <resolution>0.01</resolution>
+            </range>
+            <noise>
+              <type>gaussian</type>
+
+              <mean>0.0</mean>
+              <stddev>0.01</stddev>
+            </noise>
+          </ray>
+          <plugin name="gazebo_ros_head_hokuyo_controller" filename="libgazebo_ros_laser.so">
+            <topicName>/Diff_Drive/laser/scan4</topicName>
+            <frameName>hokuyo_link4</frameName>
+          </plugin>
+        </sensor>
+      </gazebo>
+
 
 <!-- //////////////////////////////////////////////////////////////// -->
 

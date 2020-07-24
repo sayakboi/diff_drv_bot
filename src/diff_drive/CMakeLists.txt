@@ -13,10 +13,13 @@ find_package(catkin REQUIRED COMPONENTS
   rviz
   std_msgs
   tf
+
   urdf
   xacro
   geometry_msgs
+  sensor_msgs
   nav_msgs
+  ira_laser_tools
 )
 
 ## System dependencies are found with CMake's conventions
